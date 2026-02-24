@@ -8,5 +8,5 @@ import retrofit2.http.Body
 
 interface User_repository {
     suspend fun getAllUsers(): List<User>;
-    suspend fun loginUser(request: LoginUserRequest): LoginUserResponse
+    suspend fun loginUser(request: LoginUserRequest): User
 }

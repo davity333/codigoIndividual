@@ -6,8 +6,9 @@ import com.davitydev.chat.Features.User.Data.DataSources.Model.LoginUserRequest
 import com.davitydev.chat.Features.User.Data.DataSources.Model.LoginUserResponse
 import com.davitydev.chat.Features.User.Domain.Entities.User
 import com.davitydev.chat.Features.User.Domain.Repository.User_repository
+import javax.inject.Inject
 
-class UserRepositoryImp(
+class UserRepositoryImp @Inject constructor(
     private val api: ChatApi
 ): User_repository{
 
@@ -18,7 +19,7 @@ class UserRepositoryImp(
         }
     }
 
-    override suspend fun loginUser(request: LoginUserRequest): LoginUserResponse {
-        return api.login(request)
+    override suspend fun loginUser(request: LoginUserRequest): User {
+        return api.login(request).toDomain()
     }
 }

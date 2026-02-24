@@ -1,6 +1,5 @@
 package com.davitydev.chat.Features.Login.Presentation.Navigation
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -10,23 +9,26 @@ import com.davitydev.chat.Core.Navigation.Register
 import com.davitydev.chat.Features.Login.Presentation.Screen.LoginScreen
 import com.davitydev.chat.Features.Login.Presentation.Viewmodel.LoginViewModel
 import com.davitydev.chat.Features.Register.Presentation.Screen.RegisterScreen
-import com.davitydev.chat.Features.User.Di.LoginModule
+import androidx.hilt.navigation.compose.hiltViewModel
 
-class LoginNavGraph(private val LoginModule: LoginModule): FeatureNavGraph {
+class LoginNavGraph : FeatureNavGraph {
     override fun loginGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+
         navGraphBuilder.composable<Login> {
-
-            val factory = LoginModule.provideUsersViewModelFactory()
-            val viewModel: LoginViewModel = viewModel(factory = factory)
-
-            LoginScreen (
+            val viewModel: LoginViewModel = hiltViewModel()
+            LoginScreen(
                 viewModel = viewModel,
-                onClickRegister = {navController.navigate(Register)}
+                onClickRegister = { navController.navigate(Register) }
             )
         }
 
         navGraphBuilder.composable<Register> {
-            RegisterScreen()
+            val viewModel: LoginViewModel = hiltViewModel()
+            RegisterScreen(
+                viewModel = viewModel,
+                onClickLogin = { navController.navigate(Login) }
+            )
         }
+
     }
 }

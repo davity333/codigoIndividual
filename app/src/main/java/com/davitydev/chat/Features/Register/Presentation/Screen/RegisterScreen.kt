@@ -1,6 +1,7 @@
 package com.davitydev.chat.Features.Register.Presentation.Screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,9 +17,11 @@ import com.example.compose.primaryContainerDarkMediumContrast
 import com.example.compose.surfaceBrightDarkMediumContrast
 import com.example.ui.theme.displayFontFamily
 import com.davitydev.chat.Features.Login.Presentation.Screen.Circle
+import com.davitydev.chat.Features.Login.Presentation.Viewmodel.LoginViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(viewModel: LoginViewModel, onClickLogin: () -> Unit) {
 
     val nombre = remember { mutableStateOf("") }
     val usuario = remember { mutableStateOf("") }
@@ -108,15 +111,21 @@ fun RegisterScreen() {
                     fontSize = 18.sp,
                     fontFamily = displayFontFamily,
                     color = surfaceBrightDarkMediumContrast,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable{
+                        onClickLogin()
+                    }
                 )
             }
         }
     }
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun RegisterView() {
     RegisterScreen()
 }
+*/
+
