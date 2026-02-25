@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.davitydev.chat.Core.Navigation.Chat
 import com.davitydev.chat.Core.Navigation.Home
 import com.davitydev.chat.Core.Navigation.HomeNavGraph
+import com.davitydev.chat.Features.Chat.Presentation.Screen.ContactsScreen
 import com.davitydev.chat.Features.Home.Presentation.Screen.HomeScreen
 import com.davitydev.chat.Features.Home.Presentation.Viewmodel.HomeViewModel
 import com.davitydev.chat.Features.Login.Presentation.Screen.LoginScreen
@@ -26,7 +27,7 @@ class HomeNavGraph : HomeNavGraph {
         }
 
         navGraphBuilder.composable<Chat> {  // ← nueva ruta
-            ChatScreen()
+            ContactsScreen()
         }
     }
 }

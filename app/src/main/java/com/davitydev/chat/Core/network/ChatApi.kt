@@ -11,6 +11,6 @@ interface ChatApi{
     @GET("getAll")
     suspend fun getAllUser(): UserResponse
 
-    @POST("login")
+    @POST("users/login")
     suspend fun login(@Body request: LoginUserRequest): LoginUserResponse
 }
