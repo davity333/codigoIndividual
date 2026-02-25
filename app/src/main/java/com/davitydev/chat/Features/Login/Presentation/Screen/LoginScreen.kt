@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.davitydev.chat.Features.Login.Presentation.Viewmodel.LoginViewModel
 import com.davitydev.chat.R
@@ -23,8 +24,9 @@ import com.example.ui.theme.displayFontFamily
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel,
-    onClickRegister: () -> Unit
+    viewModel: LoginViewModel = hiltViewModel(),
+    onClickRegister: () -> Unit,
+    onClickFormReservation: () -> Unit
 ) {
     val email by viewModel.email.collectAsStateWithLifecycle()
     val password by viewModel.password.collectAsStateWithLifecycle()
@@ -128,6 +130,13 @@ fun LoginScreen(
                     modifier = Modifier.clickable { onClickRegister() }
                 )
             }
+            Button(
+                onClick = { onClickFormReservation() },
+                modifier = Modifier.fillMaxWidth(0.8f)
+            ) {
+                Text("¡Agendar!")
+            }
+
         }
     }
 }

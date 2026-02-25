@@ -14,3 +14,7 @@ object Home
 
 @Serializable
 object Chat
+
+@Serializable
+object FormReservation
+

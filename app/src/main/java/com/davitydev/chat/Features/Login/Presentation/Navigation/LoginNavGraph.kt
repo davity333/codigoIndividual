@@ -13,7 +13,10 @@ import com.davitydev.chat.Features.Login.Presentation.Viewmodel.LoginViewModel
 import com.davitydev.chat.Features.Register.Presentation.Screen.RegisterScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.davitydev.chat.Core.Navigation.FormReservation
 import com.davitydev.chat.Core.Navigation.Home
+import com.davitydev.chat.Features.FormReservations.Presentation.Screen.FormReservationScreen
+import com.davitydev.chat.Features.FormReservations.Presentation.Viewmodel.FormReservationViewmodel
 
 class LoginNavGraph : FeatureNavGraph {
     override fun loginGraph(navGraphBuilder: NavGraphBuilder, navController: NavController) {
@@ -32,7 +35,8 @@ class LoginNavGraph : FeatureNavGraph {
 
             LoginScreen(
                 viewModel = viewModel,
-                onClickRegister = { navController.navigate(Register) }
+                onClickRegister = { navController.navigate(Register) },
+                onClickFormReservation = { navController.navigate(FormReservation) }
             )
         }
 
@@ -43,6 +47,14 @@ class LoginNavGraph : FeatureNavGraph {
                 onClickLogin = { navController.navigate(Login) }
             )
         }
+
+        navGraphBuilder.composable<FormReservation>{
+            val viewModel: FormReservationViewmodel = hiltViewModel()
+            FormReservationScreen(
+                onClickMessages = { navController.navigate(Login) }
+            )
+        }
+
 
     }
 }
