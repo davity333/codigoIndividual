@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,7 +51,7 @@ fun FormReservationScreen (
 
         //CONTENIDO
         Row(modifier = Modifier.padding(20.dp)) {
-            Column() {
+            Column(modifier = Modifier.weight(3f)) {
                 Text("Agenda tu sesión!",
                     fontFamily = displayFontFamily,
                     fontSize = 18.sp,
@@ -66,12 +67,15 @@ fun FormReservationScreen (
                     color = onSurfaceVariantLight,
                 )
             }
+
             Image(
                 painter = painterResource(R.drawable.calendario),
                 contentDescription = "Logo",
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(50.dp)
+                    .weight(1f)
             )
         }
     }
 }
+
 
