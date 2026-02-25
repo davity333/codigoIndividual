@@ -6,6 +6,7 @@ import com.davitydev.chat.Core.di.Token.TokenDataStore
 import com.davitydev.chat.Features.User.Data.DataSources.Model.LoginUserRequest
 import com.davitydev.chat.Features.User.Domain.UseCases.LoginUserUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ class LoginViewModel @Inject constructor(
     private val loginUserUsecase: LoginUserUsecase,
     private val tokenDataStore: TokenDataStore
 ) : ViewModel() {
-
+    private val _navigateToHome = MutableStateFlow(false)
+    val navigateToHome = _navigateToHome.asStateFlow()
     private val _email = MutableStateFlow("")
     val email = _email.asStateFlow()
 
@@ -56,13 +58,35 @@ class LoginViewModel @Inject constructor(
             result.fold(
                 onSuccess = { user ->
                     tokenDataStore.saveToken(user.token)
+                    tokenDataStore.saveName("${user.firstname} ${user.lastname}")
+                    tokenDataStore.saveIdUser(user.idUser)
                     _loginSuccess.value = true
+                    delay(1000)              // ← espera 1 segundo
+                    _navigateToHome.value = true
                 },
                 onFailure = { exception ->
-                    _error.value = exception.message ?: "Error al iniciar sesión"
+                    _error.value = getErrorMessage(exception)
                 }
             )
             _loading.value = false
+        }
+    }
+
+    private fun getErrorMessage(exception: Throwable): String {
+        if (exception is retrofit2.HttpException) {
+            val errorBody = exception.response()?.errorBody()?.string()
+            if (errorBody != null) {
+                return try {
+                    val json = org.json.JSONObject(errorBody)
+                    json.getString("Detail")  // ← saca el "Detail" del JSON
+                } catch (e: Exception) {
+                    "Error al iniciar sesión"
+                }
+            }
+        }
+        return when {
+            exception.message?.contains("Unable to resolve host") == true -> "Sin conexión a internet"
+            else -> "Error al iniciar sesión"
         }
     }
 }

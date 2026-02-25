@@ -9,3 +9,7 @@ interface FeatureNavGraph {
         navController: NavController
     )
 }
+
+interface HomeNavGraph {
+    fun homeGraph(navGraphBuilder: NavGraphBuilder, navController: NavController)
+}
