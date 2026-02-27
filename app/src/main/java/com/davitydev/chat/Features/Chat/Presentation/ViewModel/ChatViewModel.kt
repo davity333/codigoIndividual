@@ -32,24 +32,35 @@ class ChatViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChatState())
     val uiState: StateFlow<ChatState> = _uiState.asStateFlow()
 
+    private val initJob: Job
+
     init {
-        viewModelScope.launch {
-            _uiState.update { it.copy(currentUserId = tokenDataStore.getIdUser().firstOrNull()) }
+        initJob = viewModelScope.launch {
+            val userId = tokenDataStore.getIdUser().firstOrNull()
+            _uiState.update { it.copy(currentUserId = userId) }
         }
     }
 
     fun initializeChat(contactId: Int) {
         viewModelScope.launch {
-            getContacts().join()
+            initJob.join()
+
+            val userId = _uiState.value.currentUserId
+            if (userId == null) {
+                _uiState.update { it.copy(error = "User session not found.") }
+                return@launch
+            }
+
+            getContacts(userId).join()
+
             loadChatPartner(contactId)
-            getMessages(contactId)
-            subscribeToMessages(contactId)
+            getMessages(contactId, userId)
+            subscribeToMessages(contactId, userId)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        // The WebSocket connection is now managed by the repository and its lifecycle
     }
 
     fun onMessageChange(newText: String) {
@@ -57,17 +68,12 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun loadChatPartner(contactId: Int) {
-        viewModelScope.launch {
-            getContactsUseCase(uiState.value.currentUserId!!).onSuccess {
-                val partner = it.find { contact -> contact.contactId == contactId }
-                _uiState.update { state -> state.copy(chatPartner = partner) }
-            }
-        }
+        val partner = _uiState.value.contacts.find { it.contactId == contactId }
+        _uiState.update { it.copy(chatPartner = partner) }
     }
 
-    private fun getMessages(contactId: Int) {
+    private fun getMessages(contactId: Int, userId: Int) {
         viewModelScope.launch {
-            val userId = _uiState.value.currentUserId ?: return@launch
             getMessagesUseCase(senderId = userId, receiverId = contactId)
                 .onSuccess { messages ->
                     _uiState.update { currentState ->
@@ -95,9 +101,8 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun subscribeToMessages(contactId: Int) {
+    private fun subscribeToMessages(contactId: Int, userId: Int) {
         viewModelScope.launch {
-            val userId = _uiState.value.currentUserId ?: return@launch
             subscribeToMessagesUseCase(userId)
                 .onEach { message ->
                     val isRelevant = (message.senderId == userId && message.receiverId == contactId) || (message.senderId == contactId && message.receiverId == userId)
@@ -111,9 +116,8 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    private fun getContacts(): Job {
+    private fun getContacts(userId: Int): Job {
         return viewModelScope.launch {
-            val userId = _uiState.value.currentUserId ?: return@launch
             if (_uiState.value.contacts.isEmpty()) { // Only load if not already loaded
                 getContactsUseCase(userId).onSuccess {
                     _uiState.update { currentState ->
