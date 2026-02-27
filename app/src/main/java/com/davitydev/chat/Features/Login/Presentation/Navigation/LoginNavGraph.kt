@@ -15,7 +15,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.davitydev.chat.Core.Navigation.FormReservation
 import com.davitydev.chat.Core.Navigation.Home
-import com.davitydev.chat.Features.FormReservations.Presentation.Screen.FormReservationScreen
+import com.davitydev.chat.Features.FormReservations.Presentation.Screen.PageReservationScreen
+import com.davitydev.chat.Features.FormReservations.Presentation.Screen.PageReservationScreen
 import com.davitydev.chat.Features.FormReservations.Presentation.Viewmodel.FormReservationViewmodel
 
 class LoginNavGraph : FeatureNavGraph {
@@ -50,10 +51,12 @@ class LoginNavGraph : FeatureNavGraph {
 
         navGraphBuilder.composable<FormReservation>{
             val viewModel: FormReservationViewmodel = hiltViewModel()
-            FormReservationScreen(
+            PageReservationScreen(
                 onClickMessages = { navController.navigate(Login) }
             )
         }
+
+
 
 
     }

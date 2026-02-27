@@ -68,7 +68,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)   // Icons extendend
     implementation(libs.hilt.android)                               // Implementación de Hilt
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.androidx.compose.foundation)                    // Integración con Jetpack Compose
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)                    // Integración con Jetpack Compose
     ksp(libs.hilt.compiler)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation(libs.kotlinx.serialization.json)
