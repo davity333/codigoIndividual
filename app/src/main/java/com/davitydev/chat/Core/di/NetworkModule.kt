@@ -1,6 +1,7 @@
 package com.davitydev.chat.Core.di
 
 import com.davitydev.chat.Core.network.ChatApi
+import com.davitydev.chat.Features.Class.Data.DataSources.Api.ClassApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +27,11 @@ object NetworkModule {
     @Singleton
     fun provideChatApi(@UserRetrofit retrofit: Retrofit): ChatApi {  // ← agrega esto
         return retrofit.create(ChatApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideClassApi(@UserRetrofit retrofit: Retrofit): ClassApi{
+        return retrofit.create(ClassApi::class.java)
     }
 }
