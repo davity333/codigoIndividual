@@ -4,42 +4,32 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavHost
-import com.davitydev.chat.Core.Navigation.NavigationWrapper
+import com.davitydev.chat.Core.navigation.FeatureNavGraph
+import com.davitydev.chat.Core.navigation.HomeNavGraph
 import com.davitydev.chat.Core.di.NavigationApp
-import com.davitydev.chat.Features.Login.Presentation.Navigation.LoginNavGraph
 import com.example.compose.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var loginNavGraph: FeatureNavGraph
+
+    @Inject
+    lateinit var homeNavGraph: HomeNavGraph
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             AppTheme {
-                NavigationApp()
+                NavigationApp(
+                    loginNavGraph = loginNavGraph,
+                    homeNavGraph = homeNavGraph
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AppTheme {
-        Greeting("Android")
     }
 }

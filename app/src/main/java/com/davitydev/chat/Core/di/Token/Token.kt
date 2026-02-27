@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
-// Extensión que crea UN SOLO DataStore para toda la app
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_prefs")
 
 @Singleton
@@ -23,6 +22,7 @@ class TokenDataStore @Inject constructor(
         private val NAME_KEY = stringPreferencesKey("name")
         private val ID_KEY = intPreferencesKey("idUser")
     }
+    fun getToken(): Flow<String?> { return context.dataStore.data.map { it[TOKEN_KEY] } }
 
     suspend fun saveIdUser(idUser: Int) {
         context.dataStore.edit { it[ID_KEY] = idUser }
@@ -45,17 +45,4 @@ class TokenDataStore @Inject constructor(
         }
     }
 
-    // Devuelve el token como Flow - se actualiza automáticamente si cambia
-    fun getToken(): Flow<String?> {
-        return context.dataStore.data.map { preferences ->
-            preferences[TOKEN_KEY]
-        }
-    }
-
-    // Borra el token al cerrar sesión
-    suspend fun clearToken() {
-        context.dataStore.edit { preferences ->
-            preferences.remove(TOKEN_KEY)
-        }
-    }
 }

@@ -80,13 +80,14 @@ class LoginViewModel @Inject constructor(
                     val json = org.json.JSONObject(errorBody)
                     json.getString("Detail")  // ← saca el "Detail" del JSON
                 } catch (e: Exception) {
-                    "Error al iniciar sesión"
+                    errorBody // Return the full error body if parsing fails
                 }
             }
         }
         return when {
             exception.message?.contains("Unable to resolve host") == true -> "Sin conexión a internet"
-            else -> "Error al iniciar sesión"
+            // Return the specific exception message for other cases
+            else -> exception.message ?: "Error desconocido"
         }
     }
 }
