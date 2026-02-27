@@ -32,17 +32,14 @@ class ChatViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ChatState())
     val uiState: StateFlow<ChatState> = _uiState.asStateFlow()
 
-    private val initializationJob: Job
-
     init {
-        initializationJob = viewModelScope.launch {
+        viewModelScope.launch {
             _uiState.update { it.copy(currentUserId = tokenDataStore.getIdUser().firstOrNull()) }
         }
     }
 
     fun initializeChat(contactId: Int) {
         viewModelScope.launch {
-            initializationJob.join()
             getContacts().join()
             loadChatPartner(contactId)
             getMessages(contactId)
@@ -60,8 +57,12 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun loadChatPartner(contactId: Int) {
-        val partner = _uiState.value.contacts.find { contact -> contact.contactId == contactId }
-        _uiState.update { state -> state.copy(chatPartner = partner) }
+        viewModelScope.launch {
+            getContactsUseCase(uiState.value.currentUserId!!).onSuccess {
+                val partner = it.find { contact -> contact.contactId == contactId }
+                _uiState.update { state -> state.copy(chatPartner = partner) }
+            }
+        }
     }
 
     private fun getMessages(contactId: Int) {

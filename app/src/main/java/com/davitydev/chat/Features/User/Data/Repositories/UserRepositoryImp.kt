@@ -15,7 +15,7 @@ class UserRepositoryImp @Inject constructor(
 
     override suspend fun getAllUsers(): List<User> {
         val response = api.getAllUser()
-        return response.result.map {
+        return response.result.map { // Corrected back to response.result
             it.toDomain()
         }
     }

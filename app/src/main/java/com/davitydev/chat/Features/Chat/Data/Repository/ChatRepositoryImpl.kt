@@ -14,7 +14,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ChatRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val webSocketManager: ChatWebSocketManager
