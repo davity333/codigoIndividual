@@ -29,26 +29,26 @@ class ChatWebSocketManager @Inject constructor(
 
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                println("✅ WebSocket Conectado al servidor!")
+                println("WebSocket Conectado al servidor!")
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                println("📩 Nuevo mensaje recibido en tiempo real: $text")
+                println("Nuevo mensaje recibido en tiempo real: $text")
                 try {
                     val messageDto = gson.fromJson(text, Message::class.java)
                     trySend(messageDto.toDomain())
                 } catch (e: Exception) {
-                    println("❌ Error al parsear el mensaje del WebSocket: ${e.message}")
+                    println("Error al parsear el mensaje del WebSocket: ${e.message}")
                 }
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                println("🔴 WebSocket Cerrado. Razón: $reason")
+                println("WebSocket Cerrado. Razón: $reason")
                 close()
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                println("❌ Error en WebSocket: ${t.message}")
+                println("Error en WebSocket: ${t.message}")
                 close(t)
             }
         }
