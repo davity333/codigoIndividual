@@ -18,7 +18,7 @@ object NetworkModule {
     @UserRetrofit
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8080/api/v1/")  // ← cambia localhost por 10.0.2.2
+            .baseUrl("http://54.88.186.16:8080/api/v1/")  // ← cambia localhost por 10.0.2.2
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
