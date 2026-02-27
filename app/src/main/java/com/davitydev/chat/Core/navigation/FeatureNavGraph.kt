@@ -1,4 +1,4 @@
-package com.davitydev.chat.Core.Navigation
+package com.davitydev.chat.Core.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

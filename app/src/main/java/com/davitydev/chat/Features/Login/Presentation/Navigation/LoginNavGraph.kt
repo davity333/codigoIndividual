@@ -5,16 +5,16 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.davitydev.chat.Core.Navigation.FeatureNavGraph
-import com.davitydev.chat.Core.Navigation.Login
-import com.davitydev.chat.Core.Navigation.Register
+import com.davitydev.chat.Core.navigation.FeatureNavGraph
+import com.davitydev.chat.Core.navigation.Login
+import com.davitydev.chat.Core.navigation.Register
 import com.davitydev.chat.Features.Login.Presentation.Screen.LoginScreen
 import com.davitydev.chat.Features.Login.Presentation.Viewmodel.LoginViewModel
 import com.davitydev.chat.Features.Register.Presentation.Screen.RegisterScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.davitydev.chat.Core.Navigation.FormReservation
-import com.davitydev.chat.Core.Navigation.Home
+import com.davitydev.chat.Core.navigation.FormReservation
+import com.davitydev.chat.Core.navigation.Home
 import com.davitydev.chat.Features.FormReservations.Presentation.Screen.FormReservationScreen
 import com.davitydev.chat.Features.FormReservations.Presentation.Viewmodel.FormReservationViewmodel
 

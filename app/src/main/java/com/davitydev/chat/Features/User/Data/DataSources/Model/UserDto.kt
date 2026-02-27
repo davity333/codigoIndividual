@@ -28,7 +28,7 @@ data class LoginUserRequest(
 )
 
 data class UserAttributes(
-    val Email: String,
+    val email: String,
     val firstName: String,
     val lastName: String,
     val role: String,
