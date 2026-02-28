@@ -1,23 +1,17 @@
 package com.davitydev.chat.Core.di
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
-import com.davitydev.chat.Core.Navigation.Login
-import com.davitydev.chat.Core.Navigation.NavigationsApp
-import com.davitydev.chat.Features.Login.Presentation.Navigation.LoginNavGraph
+import com.davitydev.chat.Core.navigation.FeatureNavGraph
+import com.davitydev.chat.Core.navigation.HomeNavGraph
+import com.davitydev.chat.Core.navigation.NavigationWrapper
 
 @Composable
-fun NavigationApp(){
-    val navController = rememberNavController()
-    val loginNav = LoginNavGraph()
-    val homeNav = NavigationsApp()
-
-    NavHost(
-        navController = navController,
-        startDestination = Login
-    ){
-        loginNav.loginGraph(this, navController)
-        homeNav.homeGraph(this, navController)
-    }
+fun NavigationApp(
+    loginNavGraph: FeatureNavGraph,
+    homeNavGraph: HomeNavGraph
+) {
+    NavigationWrapper(
+        loginNavGraphs = listOf(loginNavGraph),
+        homeNavGraphs = listOf(homeNavGraph)
+    )
 }

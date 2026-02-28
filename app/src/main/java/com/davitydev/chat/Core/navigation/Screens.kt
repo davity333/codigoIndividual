@@ -1,7 +1,6 @@
-package com.davitydev.chat.Core.Navigation
+package com.davitydev.chat.Core.navigation
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 
 
 @Serializable
